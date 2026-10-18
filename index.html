@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mamun Chatrabash</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div id="loginPage" class="login-page">
+
+    <div class="login-box">
+
+      <h1>Mamun Chatrabash</h1>
+      <p>Admin Panel</p>
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+      <button onclick="login()">Login</button>
+
+      <p id="loginError"></p>
+
+    </div>
+
+  </div>
+
+
+  <div id="app" class="app hidden">
+
+    <header>
+
+      <div>
+        <h1>Mamun Chatrabash</h1>
+        <p>Electricity & WiFi Manager</p>
+      </div>
+
+      <button onclick="logout()">Logout</button>
+
+    </header>
+
+
+    <main>
+
+      <section class="dashboard">
+
+        <div class="card">
+          <span>Total Members</span>
+          <strong id="totalMembers">0</strong>
+        </div>
+
+        <div class="card">
+          <span>Active Members</span>
+          <strong id="activeMembers">0</strong>
+        </div>
+
+        <div class="card">
+          <span>Electricity</span>
+          <strong id="electricityTotal">৳0</strong>
+        </div>
+
+        <div class="card">
+          <span>WiFi</span>
+          <strong id="wifiTotal">৳0</strong>
+        </div>
+
+      </section>
+
+
+      <section class="panel">
+
+        <div class="panel-header">
+
+          <h2>Members</h2>
+
+          <button onclick="openMemberForm()">
+            + Add Member
+          </button>
+
+        </div>
+
+
+        <div id="memberForm" class="form-box hidden">
+
+          <h3 id="formTitle">Add Member</h3>
+
+          <input type="hidden" id="memberId">
+
+          <input
+            type="text"
+            id="memberName"
+            placeholder="Member Name"
+          >
+
+          <input
+            type="text"
+            id="memberRoom"
+            placeholder="Room Number"
+          >
+
+          <input
+            type="text"
+            id="memberPhone"
+            placeholder="Phone Number"
+          >
+
+          <input
+            type="date"
+            id="memberJoinDate"
+          >
+
+          <select id="memberStatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <div class="form-buttons">
+
+            <button onclick="saveMember()">
+              Save
+            </button>
+
+            <button onclick="closeMemberForm()">
+              Cancel
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Room</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="memberTable">
+
+              <tr>
+                <td colspan="6">
+                  No members found
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
