@@ -3,7 +3,7 @@
 // ================================
 
 // তোমার Google Apps Script Web App URL এখানে বসাবে
-const API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const API_URL = "https://script.google.com/macros/s/AKfycbzfpXGH-HUpwS6W-oxdqQx4V1TW_m7gSb3sE4lV4ebHGA3fIu7gnCecg-d9BUEzTZVSFA/exec";
 
 
 // ================================
