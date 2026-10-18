@@ -1,186 +1,331 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Mamun Chatrabash</title>
-
+  <meta name="theme-color" content="#101827">
+  <title>Mamun Chatrabash | Bill Manager</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-  <div id="loginPage" class="login-page">
-
-    <div class="login-box">
-
+  <div class="login-screen" id="loginPage">
+    <div class="login-card">
       <h1>Mamun Chatrabash</h1>
-      <p>Admin Panel</p>
+      <p>Electricity & WiFi Bill Manager</p>
 
-      <input
-        type="text"
-        id="username"
-        placeholder="Username"
-      >
+      <form id="loginForm">
+        <label for="username">Username</label>
+        <input id="username" type="text" autocomplete="username" required>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-      >
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
 
-      <button onclick="login()">Login</button>
-
-      <p id="loginError"></p>
-
+        <button type="submit">Login</button>
+        <p id="loginMessage" class="message"></p>
+      </form>
     </div>
-
   </div>
 
-
-  <div id="app" class="app hidden">
-
-    <header>
-
+  <div id="appPage" class="app-page hidden">
+    <header class="topbar">
       <div>
         <h1>Mamun Chatrabash</h1>
-        <p>Electricity & WiFi Manager</p>
+        <p>Bill Management System</p>
       </div>
-
-      <button onclick="logout()">Logout</button>
-
+      <button id="logoutBtn" class="secondary-btn" type="button">Logout</button>
     </header>
 
+    <nav class="navigation">
+      <button type="button" data-target="dashboardPanel">Dashboard</button>
+      <button type="button" data-target="membersPanel">Members</button>
+      <button type="button" data-target="electricityPanel">Electricity Bills</button>
+      <button type="button" data-target="wifiPanel">WiFi Bills</button>
+      <button type="button" data-target="paymentsPanel">Member Payments</button>
+    </nav>
 
-    <main>
+    <main class="main-content">
+      <p id="appMessage" class="message" role="status"></p>
 
-      <section class="dashboard">
+      <!-- DASHBOARD -->
+      <section class="panel" id="dashboardPanel">
+        <h2>Dashboard</h2>
 
-        <div class="card">
-          <span>Total Members</span>
-          <strong id="totalMembers">0</strong>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Total Members</span>
+            <strong id="totalMembers">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Active Members</span>
+            <strong id="activeMembers">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Electricity Collected</span>
+            <strong id="electricityCollected">৳0</strong>
+          </div>
+          <div class="stat-card">
+            <span>WiFi Collected</span>
+            <strong id="wifiCollected">৳0</strong>
+          </div>
         </div>
-
-        <div class="card">
-          <span>Active Members</span>
-          <strong id="activeMembers">0</strong>
-        </div>
-
-        <div class="card">
-          <span>Electricity</span>
-          <strong id="electricityTotal">৳0</strong>
-        </div>
-
-        <div class="card">
-          <span>WiFi</span>
-          <strong id="wifiTotal">৳0</strong>
-        </div>
-
+        <p class="hint">Collection totals will update after payment records are loaded.</p>
       </section>
 
-
-      <section class="panel">
-
-        <div class="panel-header">
-
+      <!-- MEMBERS -->
+      <section class="panel hidden" id="membersPanel">
+        <div class="section-heading">
           <h2>Members</h2>
-
-          <button onclick="openMemberForm()">
-            + Add Member
-          </button>
-
+          <button type="button" id="addMemberBtn">+ Add Member</button>
         </div>
 
-
-        <div id="memberForm" class="form-box hidden">
-
-          <h3 id="formTitle">Add Member</h3>
-
+        <form id="memberForm" class="form-grid hidden">
           <input type="hidden" id="memberId">
 
-          <input
-            type="text"
-            id="memberName"
-            placeholder="Member Name"
-          >
-
-          <input
-            type="text"
-            id="memberRoom"
-            placeholder="Room Number"
-          >
-
-          <input
-            type="text"
-            id="memberPhone"
-            placeholder="Phone Number"
-          >
-
-          <input
-            type="date"
-            id="memberJoinDate"
-          >
-
-          <select id="memberStatus">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-
-          <div class="form-buttons">
-
-            <button onclick="saveMember()">
-              Save
-            </button>
-
-            <button onclick="closeMemberForm()">
-              Cancel
-            </button>
-
+          <div>
+            <label for="memberName">Member Name *</label>
+            <input id="memberName" type="text" required>
           </div>
 
-        </div>
+          <div>
+            <label for="memberRoom">Room Number *</label>
+            <input id="memberRoom" type="text" required>
+          </div>
 
+          <div>
+            <label for="memberPhone">Phone</label>
+            <input id="memberPhone" type="tel">
+          </div>
+
+          <div>
+            <label for="memberJoinDate">Join Date</label>
+            <input id="memberJoinDate" type="date">
+          </div>
+
+          <div>
+            <label for="memberStatus">Status</label>
+            <select id="memberStatus">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Save Member</button>
+            <button type="button" id="cancelMemberBtn" class="secondary-btn">Cancel</button>
+          </div>
+        </form>
 
         <div class="table-wrapper">
-
           <table>
-
             <thead>
-
               <tr>
-                <th>#</th>
                 <th>Name</th>
                 <th>Room</th>
                 <th>Phone</th>
+                <th>Join Date</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
-
             </thead>
-
-            <tbody id="memberTable">
-
-              <tr>
-                <td colspan="6">
-                  No members found
-                </td>
-              </tr>
-
+            <tbody id="membersTableBody">
+              <tr><td colspan="6">Loading members...</td></tr>
             </tbody>
-
           </table>
-
         </div>
-
       </section>
 
+      <!-- ELECTRICITY BILL / EXPENSE -->
+      <section class="panel hidden" id="electricityPanel">
+        <h2>⚡ Electricity Bill / Recharge</h2>
+        <p class="hint">Record the actual electricity meter recharge or expense here.</p>
+
+        <form id="electricityExpenseForm" class="form-grid">
+          <div>
+            <label for="electricityExpenseAmount">Recharge Amount (৳) *</label>
+            <input id="electricityExpenseAmount" type="number" min="0.01" step="0.01" required>
+          </div>
+
+          <div>
+            <label for="electricityExpenseDate">Date *</label>
+            <input id="electricityExpenseDate" type="date" required>
+          </div>
+
+          <div>
+            <label for="electricityExpenseMonth">Month *</label>
+            <input id="electricityExpenseMonth" type="month" required>
+          </div>
+
+          <div>
+            <label for="electricityExpenseNote">Note</label>
+            <input id="electricityExpenseNote" type="text" placeholder="Meter recharge details">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Save Electricity Expense</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- WIFI BILL / EXPENSE -->
+      <section class="panel hidden" id="wifiPanel">
+        <h2>📶 WiFi Bill / Expense</h2>
+        <p class="hint">Record the actual WiFi bill paid here.</p>
+
+        <form id="wifiExpenseForm" class="form-grid">
+          <div>
+            <label for="wifiExpenseAmount">WiFi Bill (৳) *</label>
+            <input id="wifiExpenseAmount" type="number" min="0.01" step="0.01" required>
+          </div>
+
+          <div>
+            <label for="wifiExpenseDate">Date *</label>
+            <input id="wifiExpenseDate" type="date" required>
+          </div>
+
+          <div>
+            <label for="wifiExpenseMonth">Month *</label>
+            <input id="wifiExpenseMonth" type="month" required>
+          </div>
+
+          <div>
+            <label for="wifiExpenseNote">Note</label>
+            <input id="wifiExpenseNote" type="text" placeholder="Monthly WiFi bill">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Save WiFi Expense</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- MEMBER PAYMENTS -->
+      <section class="panel hidden" id="paymentsPanel">
+        <h2>Member Payments</h2>
+        <p class="hint">Record how much each member paid for electricity or WiFi.</p>
+
+        <div class="payment-box">
+          <h3>⚡ Electricity Payment</h3>
+
+          <form id="electricityPaymentForm" class="form-grid">
+            <div>
+              <label for="electricityMember">Member *</label>
+              <select id="electricityMember" required>
+                <option value="">Select Member</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="electricityAmount">Amount (৳) *</label>
+              <input id="electricityAmount" type="number" min="0.01" step="0.01" required>
+            </div>
+
+            <div>
+              <label for="electricityMonth">Month *</label>
+              <input id="electricityMonth" type="month" required>
+            </div>
+
+            <div>
+              <label for="electricityDate">Payment Date *</label>
+              <input id="electricityDate" type="date" required>
+            </div>
+
+            <div>
+              <label for="electricityNote">Note</label>
+              <input id="electricityNote" type="text" placeholder="Electricity bill payment">
+            </div>
+
+            <div class="form-actions">
+              <button type="submit">Save Electricity Payment</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="payment-box">
+          <h3>📶 WiFi Payment</h3>
+
+          <form id="wifiPaymentForm" class="form-grid">
+            <div>
+              <label for="wifiMember">Member *</label>
+              <select id="wifiMember" required>
+                <option value="">Select Member</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="wifiAmount">Amount (৳) *</label>
+              <input id="wifiAmount" type="number" min="0.01" step="0.01" required>
+            </div>
+
+            <div>
+              <label for="wifiMonth">Month *</label>
+              <input id="wifiMonth" type="month" required>
+            </div>
+
+            <div>
+              <label for="wifiDate">Payment Date *</label>
+              <input id="wifiDate" type="date" required>
+            </div>
+
+            <div>
+              <label for="wifiNote">Note</label>
+              <input id="wifiNote" type="text" placeholder="WiFi bill payment">
+            </div>
+
+            <div class="form-actions">
+              <button type="submit">Save WiFi Payment</button>
+            </div>
+          </form>
+        </div>
+
+        <h3>Payment History</h3>
+
+        <div class="form-grid filters">
+          <div>
+            <label for="paymentMonthFilter">Filter by Month</label>
+            <input id="paymentMonthFilter" type="month">
+          </div>
+          <div>
+            <label for="paymentTypeFilter">Payment Type</label>
+            <select id="paymentTypeFilter">
+              <option value="">All Types</option>
+              <option value="Electricity">Electricity</option>
+              <option value="WiFi">WiFi</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="filterPaymentsBtn">Apply Filter</button>
+            <button type="button" id="clearPaymentFiltersBtn" class="secondary-btn">Clear</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Member</th>
+                <th>Room</th>
+                <th>Type</th>
+                <th>Month</th>
+                <th>Amount</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTableBody">
+              <tr><td colspan="7">No payment records loaded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
 
+    <footer class="footer">
+      <p>Mamun Chatrabash · Bill Manager</p>
+    </footer>
   </div>
 
-
   <script src="app.js"></script>
-
 </body>
 </html>
